@@ -1,0 +1,16 @@
+[Desktop Entry]
+Name=Quake style app wrapper
+Comment=Given a resource name the script moves it to the current desktop and toggles between maximize/visible or minimized.
+
+X-Plasma-API=javascript
+X-Plasma-MainScript=code/main.js
+
+X-KDE-PluginInfo-Author=Jeff Simpson
+X-KDE-PluginInfo-Email=jeff@syncrodoka.ney
+X-KDE-PluginInfo-Name=quaker
+X-KDE-PluginInfo-Version=1.0
+
+X-KDE-PluginInfo-Depends=
+X-KDE-PluginInfo-License=GPL
+X-KDE-ServiceTypes=KWin/Script
+Type=Service
