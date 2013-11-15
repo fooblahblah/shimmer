@@ -8,23 +8,21 @@ function toggleMaximized(client) {
   client.geometry = maxBounds;
 
   if(client.minimized) {
-    client.minimized  = false;
-    client.keepAbove  = true;
-    if(workspace.activeClient) {
-      workspace.slotWindowLower();
-      workspace.slotWindowRaiseOrLower();
-    }
-  } else {
+    client.minimized       = false;
+    client.keepAbove       = true;
+    client.onAllDesktops   = true;
+    workspace.activeClient = client;
+w  } else {
     client.keepAbove = false;
     client.minimized = true;
   }
 
-  client.skipSwitcher = true;
-  client.skipPager    = true;
-  client.skipTaskbar  = true;
+  client.skipSwitcher  = true;
+  client.skipPager     = true;
+  client.skipTaskbar   = true;
 }
 
-function quaker() {
+function shortcutHook() {
   var clients = workspace.clientList();
 
   for (var i=0; i<clients.length; i++) {
@@ -38,4 +36,4 @@ function quaker() {
 
 var target = "terminator";
 
-registerShortcut("Quaker", "Quake-style app expose", "F12", quaker);
+registerShortcut("Quaker", "Quake-style app expose", "F12", shortcutHook);
