@@ -34,6 +34,6 @@ function shortcutHook() {
   }
 }
 
-var target = "terminator";
+var target = readConfig("shimmerApp", "terminator");
 
 registerShortcut("Quaker", "Quake-style app expose", "F12", shortcutHook);
