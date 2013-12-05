@@ -24,17 +24,44 @@ w  } else {
 }
 
 function shortcutHook() {
-  var clients = workspace.clientList();
+  if (self.shimmerer == null) {
+    var clients = workspace.clientList();
+    for (var i=0; i<clients.length; i++) {
+      var client = clients[i];
 
-  for (var i=0; i<clients.length; i++) {
-    var client = clients[i];
-
-    if(client.resourceName == target) {
-      toggleMaximized(client);
+      //Don't set a stale client as shimmerer
+      if (client != self.oldshimmerer) {
+          if(client.resourceName == target) {
+            self.shimmerer = client;
+          }
+        }
     }
+  }
+  if (self.shimmerer != null) {
+    toggleMaximized(shimmerer);
   }
 }
 
 var target = readConfig("shimmerApp", "terminator");
+this.shimmerer = null;
+this.oldshimmerer = null;
+var self = this;
+shortcutHook();
+
+workspace.clientAdded.connect(function(client) {
+  if (self.shimmerer == null) {
+    if (client.resourceName == target) {
+      self.shimmerer = client;
+      toggleMaximized(self.shimmerer);
+    }
+  }
+});
+workspace.clientRemoved.connect(function(client) {
+  if (client == self.shimmerer) {
+    self.oldshimmerer = client;
+    self.shimmerer = null;
+    shortcutHook();
+  }
+});
 
 registerShortcut("Quaker", "Quake-style app expose", "F12", shortcutHook);
