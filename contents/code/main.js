@@ -6,6 +6,7 @@ function toggleMaximized(client) {
 
   client.desktop = workspace.currentDesktop;
   client.geometry = maxBounds;
+  client.noBorder = true;
 
   if(client.minimized) {
     client.minimized       = false;
