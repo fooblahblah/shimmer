@@ -12,7 +12,7 @@ function toggleMaximized(client) {
     client.keepAbove       = true;
     client.onAllDesktops   = true;
     workspace.activeClient = client;
-w  } else {
+  } else {
     client.keepAbove = false;
     client.minimized = true;
   }
