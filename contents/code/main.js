@@ -2,38 +2,38 @@
  *Cheap little script to provide Quake-style quick window toggle supprt
  **/
 function toggleMaximized(client) {
-  var maxBounds = workspace.clientArea(KWin.MaximizeArea, workspace.activeScreen, workspace.currentDesktop);
+    var maxBounds = workspace.clientArea(KWin.MaximizeArea, workspace.activeScreen, workspace.currentDesktop);
 
-  client.desktop = workspace.currentDesktop;
-  client.geometry = maxBounds;
+    client.desktop = workspace.currentDesktop;
+    client.geometry = maxBounds;
 
-  if(client.minimized) {
-    client.minimized       = false;
-    client.keepAbove       = true;
-    client.onAllDesktops   = true;
-    workspace.activeClient = client;
-  } else {
-    client.keepAbove = false;
-    client.minimized = true;
-  }
+    if (client.minimized) {
+        client.minimized = false;
+        client.keepAbove = true;
+        client.onAllDesktops = true;
+        workspace.activeWindow = client;
+    } else {
+        client.keepAbove = false;
+        client.minimized = true;
+    }
 
-  client.skipSwitcher  = true;
-  client.skipPager     = true;
-  client.skipTaskbar   = true;
+    client.skipSwitcher = true;
+    client.skipPager = true;
+    client.skipTaskbar = true;
 }
 
 function shortcutHook() {
-  var clients = workspace.clientList();
+    var clients = workspace.windowList();
 
-  for (var i=0; i<clients.length; i++) {
-    var client = clients[i];
+    for (var i = 0; i < clients.length; i++) {
+        var client = clients[i];
 
-    if(client.resourceName == target) {
-      toggleMaximized(client);
+        if (client.resourceClass === target) {
+            toggleMaximized(client);
+        }
     }
-  }
 }
 
 var target = "terminator";
 
-registerShortcut("Quaker", "Quake-style app expose", "F12", shortcutHook);
+registerShortcut("Shimmer", "Quake-style app expose", "F12", shortcutHook);

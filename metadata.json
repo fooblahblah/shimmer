@@ -1,0 +1,21 @@
+{
+    "KPlugin": {
+        "Name": "Shimmer",
+        "Description": "Quake/Visor application wrapper",
+        "Icon": "preferences-system-windows",
+
+        "Authors": [
+            {
+                "Email": "jeff@sprinterawd.com",
+                "Name": "Jeff Simpson"
+            }
+        ],
+        "Id": "shimmer",
+        "Version": "1.0",
+        "License": "MIT",
+        "Website": "https://github.com/fooblahblah/shimmer"
+    },
+    "X-Plasma-API": "javascript",
+    "X-Plasma-MainScript": "code/main.js",
+    "KPackageStructure": "KWin/Script"
+}
