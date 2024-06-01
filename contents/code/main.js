@@ -1,6 +1,9 @@
 /**
- *Cheap little script to provide Quake-style quick window toggle supprt
+ *Cheap little script to provide Quake-style quick window toggle support
  **/
+
+const minimizeOnBlur = true;
+
 function toggleMaximized(client) {
     var maxBounds = workspace.clientArea(KWin.MaximizeArea, workspace.activeScreen, workspace.currentDesktop);
 
@@ -13,13 +16,17 @@ function toggleMaximized(client) {
         client.onAllDesktops = true;
         workspace.activeWindow = client;
     } else {
-        client.keepAbove = false;
-        client.minimized = true;
+        closeWindow(client);
     }
 
     client.skipSwitcher = true;
     client.skipPager = true;
     client.skipTaskbar = true;
+}
+
+function closeWindow(client) {
+    client.keepAbove = false;
+    client.minimized = true;
 }
 
 function shortcutHook() {
@@ -42,6 +49,16 @@ function getWindow() {
     }
     return null;
 }
+
+function onBlur(client) {
+    if (workspace.activeWindow && workspace.activeWindow.resourceClass !== target && minimizeOnBlur) {
+        let targetClient = getWindow();
+        if (targetClient) {
+            closeWindow(targetClient);
+        }
+    }
+}
+workspace.windowActivated.connect(onBlur);
 
 var target = "terminator";
 
