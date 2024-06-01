@@ -31,6 +31,7 @@ function toggleMaximized(client) {
     if (client.minimized) {
         client.minimized = false;
         client.keepAbove = true;
+        client.noBorder= true;
         client.onAllDesktops = true;
         workspace.activeWindow = client;
     } else {
