@@ -2,6 +2,9 @@
  *Cheap little script to provide Quake-style quick window toggle support
  **/
 
+const centerHorizontal = true;
+const horizontalScale = 0.9;
+const verticalScale = 0.9;
 const targetScreen = 0; // use workspace.activeScreen to always show on the active screen
 const minimizeOnBlur = true;
 
@@ -9,6 +12,14 @@ function toggleMaximized(client) {
     var maxBounds = workspace.clientArea(KWin.MaximizeArea, targetScreen, workspace.currentDesktop);
 
     client.desktop = workspace.currentDesktop;
+
+    let screenWidth = maxBounds.width;
+    maxBounds.height *= verticalScale;
+    maxBounds.width *= horizontalScale;
+    if (centerHorizontal) {
+        maxBounds.x += (screenWidth - maxBounds.width) / 2;
+    }
+
     client.geometry = maxBounds;
 
     if (client.minimized) {
