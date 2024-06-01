@@ -5,11 +5,17 @@
 const centerHorizontal = true;
 const horizontalScale = 0.9;
 const verticalScale = 0.9;
-const targetScreen = 0; // use workspace.activeScreen to always show on the active screen
+const targetScreen = 0; // use -1 to always show on the active screen
 const minimizeOnBlur = true;
 
 function toggleMaximized(client) {
-    var maxBounds = workspace.clientArea(KWin.MaximizeArea, targetScreen, workspace.currentDesktop);
+    let screen;
+    if (targetScreen < 0) {
+        screen = workspace.activeScreen;
+    } else {
+        screen = workspace.screens[targetScreen];
+    }
+    var maxBounds = workspace.clientArea(KWin.MaximizeArea, screen, workspace.currentDesktop);
 
     client.desktop = workspace.currentDesktop;
 
