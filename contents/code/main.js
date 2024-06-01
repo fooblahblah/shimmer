@@ -23,15 +23,24 @@ function toggleMaximized(client) {
 }
 
 function shortcutHook() {
-    var clients = workspace.windowList();
+    let client = getWindow();
 
-    for (var i = 0; i < clients.length; i++) {
-        var client = clients[i];
+    if (client) {
+        toggleMaximized(client);
+    }
+}
+
+function getWindow() {
+    let clients = workspace.windowList();
+
+    for (let i=0; i < clients.length; i++) {
+        let client = clients[i];
 
         if (client.resourceClass === target) {
-            toggleMaximized(client);
+            return client;
         }
     }
+    return null;
 }
 
 var target = "terminator";
