@@ -26,7 +26,7 @@ function toggleMaximized(client) {
         maxBounds.x += (screenWidth - maxBounds.width) / 2;
     }
 
-    client.geometry = maxBounds;
+    client.frameGeometry = maxBounds;
 
     if (client.minimized) {
         client.minimized = false;
