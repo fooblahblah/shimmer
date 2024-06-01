@@ -2,10 +2,11 @@
  *Cheap little script to provide Quake-style quick window toggle support
  **/
 
+const targetScreen = 0; // use workspace.activeScreen to always show on the active screen
 const minimizeOnBlur = true;
 
 function toggleMaximized(client) {
-    var maxBounds = workspace.clientArea(KWin.MaximizeArea, workspace.activeScreen, workspace.currentDesktop);
+    var maxBounds = workspace.clientArea(KWin.MaximizeArea, targetScreen, workspace.currentDesktop);
 
     client.desktop = workspace.currentDesktop;
     client.geometry = maxBounds;
