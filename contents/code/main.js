@@ -1,20 +1,41 @@
 /**
- *Cheap little script to provide Quake-style quick window toggle supprt
+ *Cheap little script to provide Quake-style quick window toggle support
  **/
+
+const centerHorizontal = true;
+const horizontalScale = 0.9;
+const verticalScale = 0.9;
+const targetScreen = 0; // use -1 to always show on the active screen
+const minimizeOnBlur = true;
+
 function toggleMaximized(client) {
-    var maxBounds = workspace.clientArea(KWin.MaximizeArea, workspace.activeScreen, workspace.currentDesktop);
+    let screen;
+    if (targetScreen < 0) {
+        screen = workspace.activeScreen;
+    } else {
+        screen = workspace.screens[targetScreen];
+    }
+    var maxBounds = workspace.clientArea(KWin.MaximizeArea, screen, workspace.currentDesktop);
 
     client.desktop = workspace.currentDesktop;
-    client.geometry = maxBounds;
+
+    let screenWidth = maxBounds.width;
+    maxBounds.height *= verticalScale;
+    maxBounds.width *= horizontalScale;
+    if (centerHorizontal) {
+        maxBounds.x += (screenWidth - maxBounds.width) / 2;
+    }
+
+    client.frameGeometry = maxBounds;
 
     if (client.minimized) {
         client.minimized = false;
         client.keepAbove = true;
+        client.noBorder= true;
         client.onAllDesktops = true;
         workspace.activeWindow = client;
     } else {
-        client.keepAbove = false;
-        client.minimized = true;
+        closeWindow(client);
     }
 
     client.skipSwitcher = true;
@@ -22,17 +43,41 @@ function toggleMaximized(client) {
     client.skipTaskbar = true;
 }
 
-function shortcutHook() {
-    var clients = workspace.windowList();
+function closeWindow(client) {
+    client.keepAbove = false;
+    client.minimized = true;
+}
 
-    for (var i = 0; i < clients.length; i++) {
-        var client = clients[i];
+function shortcutHook() {
+    let client = getWindow();
+
+    if (client) {
+        toggleMaximized(client);
+    }
+}
+
+function getWindow() {
+    let clients = workspace.windowList();
+
+    for (let i=0; i < clients.length; i++) {
+        let client = clients[i];
 
         if (client.resourceClass === target) {
-            toggleMaximized(client);
+            return client;
+        }
+    }
+    return null;
+}
+
+function onBlur(client) {
+    if (workspace.activeWindow && workspace.activeWindow.resourceClass !== target && minimizeOnBlur) {
+        let targetClient = getWindow();
+        if (targetClient) {
+            closeWindow(targetClient);
         }
     }
 }
+workspace.windowActivated.connect(onBlur);
 
 var target = "terminator";
 
